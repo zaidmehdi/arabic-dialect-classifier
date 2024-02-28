@@ -6,10 +6,10 @@ import torch
 
 
 def extract_hidden_state(input_text, tokenizer, language_model):
-    tokens = tokenizer(input_text, padding=True)
+    tokens = tokenizer(input_text, padding=True, return_tensors="pt")
     with torch.no_grad():
-        outputs = language_model(tokens)
-    
+        outputs = language_model(**tokens)
+
     return outputs.last_hidden_state
 
 
