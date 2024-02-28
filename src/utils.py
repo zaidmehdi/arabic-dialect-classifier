@@ -10,7 +10,7 @@ def extract_hidden_state(input_text, tokenizer, language_model):
     with torch.no_grad():
         outputs = language_model(**tokens)
 
-    return outputs.last_hidden_state
+    return outputs.last_hidden_state[:,0].numpy()
 
 
 def get_metrics(y_true, y_preds):
