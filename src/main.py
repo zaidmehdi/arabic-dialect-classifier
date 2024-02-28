@@ -1,14 +1,18 @@
 import pickle
 
 from flask import Flask, request, jsonify
-from transformers import AutoTokenizer
+from transformers import AutoModel, AutoTokenizer
+
+from utils import extract_hidden_state
 
 app = Flask(__name__)
 
 with open("../models/logistic_regression.pkl", "rb") as f:
         model = pickle.load(f)
 
-tokenizer = AutoTokenizer.from_pretrained("moussaKam/AraBART")
+model_name = "moussaKam/AraBART"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+language_model = AutoModel.from_pretrained(model_name)
 
 
 @app.route("/classify", methods=["POST"])
@@ -19,7 +23,7 @@ def classify_arabic_dialect():
         if not text:
             return jsonify({"error": "No text has been received"}), 400
          
-        text_embeddings = tokenizer(text, padding=True)
+        text_embeddings = extract_hidden_state(text, tokenizer, language_model)
         predicted_class = model.predict(text_embeddings)
 
         return jsonify({"class": predicted_class}), 200

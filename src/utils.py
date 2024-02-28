@@ -2,6 +2,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.metrics import confusion_matrix
+import torch
+
+
+def extract_hidden_state(input_text, tokenizer, language_model):
+    tokens = tokenizer(input_text, padding=True)
+    with torch.no_grad():
+        outputs = language_model(tokens)
+    
+    return outputs.last_hidden_state
 
 
 def get_metrics(y_true, y_preds):
