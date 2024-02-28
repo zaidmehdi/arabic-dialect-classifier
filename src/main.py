@@ -22,10 +22,10 @@ def classify_arabic_dialect():
         text = data.get("text")
         if not text:
             return jsonify({"error": "No text has been received"}), 400
-         
+        
         text_embeddings = extract_hidden_state(text, tokenizer, language_model)
-        predicted_class = model.predict(text_embeddings)
-
+        predicted_class = model.predict(text_embeddings)[0]
+        
         return jsonify({"class": predicted_class}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
