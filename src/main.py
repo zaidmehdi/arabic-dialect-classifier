@@ -8,7 +8,7 @@ from utils import extract_hidden_state
 app = Flask(__name__)
 
 with open("../models/logistic_regression.pkl", "rb") as f:
-        model = pickle.load(f)
+    model = pickle.load(f)
 
 model_name = "moussaKam/AraBART"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -28,7 +28,7 @@ def classify_arabic_dialect():
 
         return jsonify({"class": predicted_class}), 200
     except Exception as e:
-         return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
 
 def main():
