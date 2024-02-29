@@ -1,14 +1,21 @@
+import os
 import pickle
 
 from flask import Flask, request, jsonify
 from transformers import AutoModel, AutoTokenizer
 
-from utils import extract_hidden_state
+from src.utils import extract_hidden_state
 
 app = Flask(__name__)
 
-with open("../models/logistic_regression.pkl", "rb") as f:
-    model = pickle.load(f)
+models_dir = os.path.join(os.path.dirname(__file__), '..', 'models')
+model_file = os.path.join(models_dir, 'logistic_regression.pkl')
+
+if os.path.exists(model_file):
+    with open(model_file, "rb") as f:
+        model = pickle.load(f)
+else:
+    print(f"Error: {model_file} not found.")
 
 model_name = "moussaKam/AraBART"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
