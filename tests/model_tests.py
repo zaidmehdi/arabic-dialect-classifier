@@ -10,6 +10,7 @@ class TestClassifier(unittest.TestCase):
         'Libya', 'Bahrain', 'Qatar', 'Yemen', 'Palestine', 'Jordan', 'Somalia', 'Sudan']
 
     def test_output(self):
+        """Test if the response of the /classify API endpoint is correct"""
         request_data = {"text": "حاجة حلوة اكيد"}
         response = requests.post(self.API_URL, json=request_data)
         self.assertEqual(response.status_code, 200)
