@@ -4,7 +4,7 @@ import pickle
 from flask import Flask, request, jsonify
 from transformers import AutoModel, AutoTokenizer
 
-from utils import extract_hidden_state
+from .utils import extract_hidden_state
 
 app = Flask(__name__)
 
