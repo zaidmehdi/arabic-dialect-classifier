@@ -7,8 +7,9 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-COPY src models /app/
+COPY src /app/src
+COPY models /app/models
 
 EXPOSE 80
 
-CMD ["python", "src/main.py"]
+CMD ["python", "-m", "src.main"]
