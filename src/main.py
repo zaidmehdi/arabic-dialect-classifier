@@ -4,7 +4,7 @@ import pickle
 from flask import Flask, request, jsonify
 from transformers import AutoModel, AutoTokenizer
 
-from src.utils import extract_hidden_state
+from utils import extract_hidden_state
 
 app = Flask(__name__)
 
@@ -39,7 +39,7 @@ def classify_arabic_dialect():
 
 
 def main():
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
 
 
 if __name__ == "__main__":
