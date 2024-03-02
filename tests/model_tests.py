@@ -1,10 +1,11 @@
-import requests
 import unittest
+
+from src.main import app
 
 
 class TestClassifier(unittest.TestCase):
     def setUp(self) -> None:
-        self.API_URL = "http://localhost:5000/classify"
+        self.client = app.test_client()
         self.dialects = ['Egypt', 'Iraq', 'Saudi_Arabia', 'Mauritania', 'Algeria', 'Syria',
         'Oman', 'Tunisia', 'Lebanon', 'Morocco', 'Djibouti','United_Arab_Emirates','Kuwait', 
         'Libya', 'Bahrain', 'Qatar', 'Yemen', 'Palestine', 'Jordan', 'Somalia', 'Sudan']
@@ -18,17 +19,17 @@ class TestClassifier(unittest.TestCase):
     def test_response(self):
         """Test if the response of the /classify API endpoint is correct"""
         request_data = {"text": "حاجة حلوة اكيد"}
-        response = requests.post(self.API_URL, json=request_data)
+        response = self.client.post("/classify", json=request_data)
         self.assertEqual(response.status_code, 200)
-        self.assertIn("class", response.json())
-        self.assertIn(response.json()["class"], self.dialects)
+        self.assertIn("class", response.json)
+        self.assertIn(response.json["class"], self.dialects)
 
     def test_model_output(self):
         """Test that the model correctly classifies obvious dialects"""
         for country, text, in self.test_set.items():
             request_data = {"text": text}
-            response = requests.post(self.API_URL, json=request_data)
-            self.assertEqual(response.json()["class"], country)
+            response = self.client.post("/classify", json=request_data)
+            self.assertEqual(response.json["class"], country)
 
     
 if __name__ == "__main__":
