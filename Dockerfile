@@ -4,12 +4,10 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-COPY src /app/src
-COPY tests /app/tests
-COPY models /app/models
+COPY src models /app/
 
 EXPOSE 80
 
