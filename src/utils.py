@@ -1,6 +1,7 @@
+import pickle
+
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import accuracy_score, f1_score
 from sklearn.metrics import confusion_matrix
 import torch
 
@@ -13,22 +14,14 @@ def extract_hidden_state(input_text, tokenizer, language_model):
     return outputs.last_hidden_state[:,0].numpy()
 
 
-def get_metrics(y_true, y_preds):
-    accuracy = accuracy_score(y_true, y_preds)
-    f1_macro = f1_score(y_true, y_preds, average="macro")
-    f1_weighted = f1_score(y_true, y_preds, average="weighted")
-    print(f"Accuracy: {accuracy}")
-    print(f"F1 macro average: {f1_macro}")
-    print(f"F1 weighted average: {f1_weighted}")
+def serialize_data(data, output_path:str):
+    with open(output_path, "wb") as f:
+        pickle.dump(data, f) 
 
 
-def evaluate_predictions(model:str, train_preds, y_train, test_preds, y_test):
-    print(model)
-    print("\nTrain set:")
-    get_metrics(y_train, train_preds)
-    print("-"*50)
-    print("Test set:")
-    get_metrics(y_test, test_preds)
+def load_data(input_path:str):
+    with open(input_path, "rb") as f:
+        return pickle.load(f)
 
 
 def plot_confusion_matrix(y_true, y_preds):
