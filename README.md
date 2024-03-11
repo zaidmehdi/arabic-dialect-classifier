@@ -34,7 +34,7 @@ The response should be a json of the form:
 
 ## How I built this project:
 The data used to train the classifier comes from the NADI 2021 dataset for Arabic Dialect Identification [(Abdul-Mageed et al., 2021)](#cite-mageed-2021).  
-It is a corpus of tweets collected using Twitter's API and labeled thanks to the users location with the country and region.  
+It is a corpus of tweets collected using Twitter's API and labeled thanks to the users' locations with the country and region.  
 
 I used the language model `https://huggingface.co/moussaKam/AraBART` to extract features from the input text by taking the output of its last hidden layer. I used these vector embeddings as the input for a Multinomial Logistic Regression to classify the input text into one of the 21 dialects (Countries).
 
