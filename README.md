@@ -25,7 +25,7 @@ Now you can try sending a POST request:
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"text": "Your Arabic text"}' http://localhost:8080/classify
 ```  
-The response should be a json of the form:
+The response should be a json with the following fields:
 ```
 {
     "class": "country_name"
