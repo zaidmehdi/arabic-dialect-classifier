@@ -38,7 +38,7 @@ It is a corpus of tweets collected using Twitter's API and labeled thanks to the
 
 I used the language model `https://huggingface.co/moussaKam/AraBART` to extract features from the input text by taking the output of its last hidden layer. I used these vector embeddings as the input for a Multinomial Logistic Regression to classify the input text into one of the 21 dialects (Countries).
 
-For more detail, please refer to the docs directory.
+For more details, please refer to the docs directory.
 
 ## References
 - <a name="cite-mageed-2021"></a>
