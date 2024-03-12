@@ -2,6 +2,7 @@ import os
 import pickle
 
 import gradio as gr
+import numpy as np
 from transformers import AutoModel, AutoTokenizer
 
 from .utils import extract_hidden_state
@@ -35,9 +36,13 @@ language_model = AutoModel.from_pretrained(model_name)
 
 def classify_arabic_dialect(text):
     text_embeddings = extract_hidden_state(text, tokenizer, language_model)
-    predicted_class = model.predict(text_embeddings)[0]
-    
-    return predicted_class
+    probabilities = model.predict_proba(text_embeddings)[0]
+    top_three_indices = np.argsort(-probabilities)[:3]
+
+    top_three_labels = model.classes_[top_three_indices]
+    top_three_probabilities = probabilities[top_three_indices]
+
+    return top_three_labels, top_three_probabilities
 
 
 with gr.Blocks() as demo:
