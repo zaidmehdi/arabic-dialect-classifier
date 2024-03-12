@@ -18,14 +18,19 @@ class TestClassifier(unittest.TestCase):
     def test_response(self):
         """Test if the response of the main function is correct"""
         text = "حاجة حلوة اكيد"
-        response = classify_arabic_dialect(text)
-        self.assertIn(response, self.dialects)
+        predictions, probabilities = classify_arabic_dialect(text)
+        self.assertEqual(len(predictions), 3)
+        self.assertEqual(len(probabilities), 3)
+        for i in range(3):
+            self.assertIn(predictions[i], self.dialects)
+            self.assertGreaterEqual(probabilities[i], 0)
+            self.assertLessEqual(probabilities[i], 1)
 
     def test_model_output(self):
         """Test that the model correctly classifies obvious dialects"""
         for country, text, in self.test_set.items():
-            response = classify_arabic_dialect(text)
-            self.assertEqual(response, country)
+            predictions, _ = classify_arabic_dialect(text)
+            self.assertEqual(predictions[0], country)
 
     
 if __name__ == "__main__":
