@@ -37,28 +37,21 @@ language_model = AutoModel.from_pretrained(model_name)
 def classify_arabic_dialect(text):
     text_embeddings = extract_hidden_state(text, tokenizer, language_model)
     probabilities = model.predict_proba(text_embeddings)[0]
-    top_three_indices = np.argsort(-probabilities)[:3]
+    labels = model.classes_
+    predictions = {labels[i]: probabilities[i] for i in range(len(probabilities))}
 
-    top_three_labels = model.classes_[top_three_indices]
-    top_three_probabilities = probabilities[top_three_indices]
-
-    return (top_three_labels[0], top_three_probabilities[0]),\
-            (top_three_labels[1], top_three_probabilities[1]),\
-            (top_three_labels[2], top_three_probabilities[2])
+    return predictions
 
 
 with gr.Blocks() as demo:
     gr.HTML(index_html)
     input_text = gr.Textbox(label="Your Arabic Text")
     submit_btn = gr.Button("Submit")
-    with gr.Row():
-        first_country = gr.Textbox()
-        second_country = gr.Textbox()
-        third_country = gr.Textbox()
+    predictions = gr.Label(num_top_classes=3)
     submit_btn.click(
         fn=classify_arabic_dialect, 
         inputs=input_text, 
-        outputs=[first_country, second_country, third_country])
+        outputs=predictions)
     gr.HTML("""
             <p style="text-align: center;font-size: large;">
             Checkout the <a href="https://github.com/zaidmehdi/arabic-dialect-classifier">Github Repo</a>
