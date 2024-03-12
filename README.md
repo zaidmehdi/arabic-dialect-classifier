@@ -4,7 +4,7 @@ Given some arabic text, the goal is to predict the country of the text's dialect
   
 You can use the "/classify" endpoint through a POST request with a json input of the form: '{"text": "Your arabic text"}'  
 ```
-curl -X POST -H "Content-Type: application/json" -d '{"text": "Your Arabic text"}' http://localhost:8080/classify
+curl -X POST -H "Content-Type: application/json" -d '{"text": "Your arabic text"}' http://localhost:8080/classify
 ```
 
 ## Run the app locally with Docker:
