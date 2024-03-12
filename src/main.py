@@ -42,7 +42,9 @@ def classify_arabic_dialect(text):
     top_three_labels = model.classes_[top_three_indices]
     top_three_probabilities = probabilities[top_three_indices]
 
-    return top_three_labels, top_three_probabilities
+    return (top_three_labels[0], top_three_probabilities[0]),\
+            (top_three_labels[1], top_three_probabilities[1]),\
+            (top_three_labels[2], top_three_probabilities[2])
 
 
 with gr.Blocks() as demo:
@@ -62,4 +64,3 @@ with gr.Blocks() as demo:
 
 if __name__ == "__main__":
     demo.launch()
-
