@@ -1,12 +1,11 @@
 import os
 import pickle
 
-from flask import Flask, request, jsonify
+import gradio as gr
 from transformers import AutoModel, AutoTokenizer
 
 from .utils import extract_hidden_state
 
-app = Flask(__name__)
 
 models_dir = os.path.join(os.path.dirname(__file__), '..', 'models')
 model_file = os.path.join(models_dir, 'logistic_regression.pkl')
@@ -21,26 +20,19 @@ model_name = "moussaKam/AraBART"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 language_model = AutoModel.from_pretrained(model_name)
 
+def classify_arabic_dialect(text):
+    text_embeddings = extract_hidden_state(text, tokenizer, language_model)
+    predicted_class = model.predict(text_embeddings)[0]
+    
+    return predicted_class
 
-@app.route("/classify", methods=["POST"])
-def classify_arabic_dialect():
-    try:
-        data = request.json
-        text = data.get("text")
-        if not text:
-            return jsonify({"error": "No text has been received"}), 400
-        
-        text_embeddings = extract_hidden_state(text, tokenizer, language_model)
-        predicted_class = model.predict(text_embeddings)[0]
-        
-        return jsonify({"class": predicted_class}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-def main():
-    app.run(host="0.0.0.0", port=5000)
+demo = gr.Interface(
+    fn=classify_arabic_dialect,
+    inputs=["text"],
+    outputs=["text"],
+)
 
 
 if __name__ == "__main__":
-    main()
+    demo.launch()
+
