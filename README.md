@@ -7,7 +7,7 @@ You can use the "/classify" endpoint through a POST request with a json input of
 curl -X POST -H "Content-Type: application/json" -d '{"text": "Your Arabic text"}' http://localhost:8080/classify
 ```
 
-## Run the app locally with Docker
+## Run the app locally with Docker:
 1. Clone the repository with Git:  
 ```
 git clone https://github.com/zaidmehdi/arabic-dialect-classifier.git
@@ -40,7 +40,7 @@ I used the language model `https://huggingface.co/moussaKam/AraBART` to extract 
 
 For more details, please refer to the docs directory.
 
-## References
+## References:
 - <a name="cite-mageed-2021"></a>
 [Abdul-Mageed et al., 2021](https://arxiv.org/abs/2103.08466)  
 *Title:* NADI 2021: The Second Nuanced Arabic Dialect Identification Shared Task  
