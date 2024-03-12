@@ -59,7 +59,11 @@ with gr.Blocks() as demo:
         fn=classify_arabic_dialect, 
         inputs=input_text, 
         outputs=[first_country, second_country, third_country])
-    gr.HTML("<p>Checkout the Github Repo:</p>")
+    gr.HTML("""
+            <p style="text-align: center;font-size: large;">
+            Checkout the <a href="https://github.com/zaidmehdi/arabic-dialect-classifier">Github Repo</a>
+            </p>
+            """)
 
 
 if __name__ == "__main__":
