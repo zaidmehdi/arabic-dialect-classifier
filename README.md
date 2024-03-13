@@ -2,10 +2,8 @@
 This project is a classifier of arabic dialects at a country level:  
 Given some arabic text, the goal is to predict the country of the text's dialect.  
   
-You can use the "/classify" endpoint through a POST request with a json input of the form: '{"text": "Your arabic text"}'  
-```
-curl -X POST -H "Content-Type: application/json" -d '{"text": "Your arabic text"}' http://localhost:8080/classify
-```
+App Demo:  
+**link**
 
 ## Run the app locally with Docker:
 1. Clone the repository with Git:  
@@ -14,23 +12,14 @@ git clone https://github.com/zaidmehdi/arabic-dialect-classifier.git
 ```
 2. Build the Docker image:  
 ```
-docker build -t adc .
+sudo docker build -t adc .
 ```
 3. Run the Docker Container:
 ```
-docker run -p 8080:80 adc
+sudo docker run -p 8080:80 adc
 ```
 
-Now you can try sending a POST request:
-```
-curl -X POST -H "Content-Type: application/json" -d '{"text": "Your Arabic text"}' http://localhost:8080/classify
-```  
-The response should be a json with the following fields:
-```
-{
-    "class": "country_name"
-}
-```
+Now you can go to the port
 
 ## How I built this project:
 The data used to train the classifier comes from the NADI 2021 dataset for Arabic Dialect Identification [(Abdul-Mageed et al., 2021)](#cite-mageed-2021).  
