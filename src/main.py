@@ -41,33 +41,35 @@ def classify_arabic_dialect(text):
 
     return predictions
 
+def main():
+    with gr.Blocks() as demo:
+        gr.HTML(index_html)
 
-with gr.Blocks() as demo:
-    gr.HTML(index_html)
-
-    input_text = gr.Textbox(label="Your Arabic Text")
-    submit_btn = gr.Button("Submit")
-    predictions = gr.Label(num_top_classes=3)
-    submit_btn.click(
-        fn=classify_arabic_dialect, 
-        inputs=input_text, 
-        outputs=predictions)
+        input_text = gr.Textbox(label="Your Arabic Text")
+        submit_btn = gr.Button("Submit")
+        predictions = gr.Label(num_top_classes=3)
+        submit_btn.click(
+            fn=classify_arabic_dialect, 
+            inputs=input_text, 
+            outputs=predictions)
+        
+        gr.Markdown("## Text Examples")
+        examples = gr.Examples(
+            examples=[
+                "واش نتا خدام ولا لا",
+                "بصح راك فاهم لازم الزيت",
+                "حضرتك بروح زي كدا؟ على طول النهار ده",
+            ],
+            inputs=input_text,
+        )
+        gr.HTML("""
+                <p style="text-align: center;font-size: large;">
+                Checkout the <a href="https://github.com/zaidmehdi/arabic-dialect-classifier">Github Repo</a>
+                </p>
+                """)
     
-    gr.Markdown("## Text Examples")
-    examples = gr.Examples(
-        examples=[
-            "واش نتا خدام ولا لا",
-            "بصح راك فاهم لازم الزيت",
-            "حضرتك بروح زي كدا؟ على طول النهار ده",
-        ],
-        inputs=input_text,
-    )
-    gr.HTML("""
-            <p style="text-align: center;font-size: large;">
-            Checkout the <a href="https://github.com/zaidmehdi/arabic-dialect-classifier">Github Repo</a>
-            </p>
-            """)
+    demo.launch(server_name="0.0.0.0", server_port=8080)
 
 
 if __name__ == "__main__":
-    demo.launch()
+    main()
