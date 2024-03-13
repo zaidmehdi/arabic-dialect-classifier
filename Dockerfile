@@ -10,6 +10,6 @@ RUN pip install --upgrade pip && \
 COPY src /app/src
 COPY models /app/models
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["python", "-m", "src.main"]
