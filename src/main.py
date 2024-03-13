@@ -2,7 +2,6 @@ import os
 import pickle
 
 import gradio as gr
-import numpy as np
 from transformers import AutoModel, AutoTokenizer
 
 from .utils import extract_hidden_state
@@ -45,6 +44,7 @@ def classify_arabic_dialect(text):
 
 with gr.Blocks() as demo:
     gr.HTML(index_html)
+
     input_text = gr.Textbox(label="Your Arabic Text")
     submit_btn = gr.Button("Submit")
     predictions = gr.Label(num_top_classes=3)
@@ -52,6 +52,16 @@ with gr.Blocks() as demo:
         fn=classify_arabic_dialect, 
         inputs=input_text, 
         outputs=predictions)
+    
+    gr.Markdown("## Text Examples")
+    examples = gr.Examples(
+        examples=[
+            "واش نتا خدام ولا لا",
+            "بصح راك فاهم لازم الزيت",
+            "حضرتك بروح زي كدا؟ على طول النهار ده",
+        ],
+        inputs=input_text,
+    )
     gr.HTML("""
             <p style="text-align: center;font-size: large;">
             Checkout the <a href="https://github.com/zaidmehdi/arabic-dialect-classifier">Github Repo</a>
