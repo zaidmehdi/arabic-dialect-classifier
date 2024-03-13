@@ -2,9 +2,6 @@
 This project is a classifier of arabic dialects at a country level:  
 Given some arabic text, the goal is to predict the country of the text's dialect.  
   
-App Demo:  
-https://cc5e7feb4f4d2f1460.gradio.live/
-  
 ![Demo App](docs/images/gradio_app.png "Demo App")
 ## Run the app locally with Docker:
 1. Clone the repository with Git:  
