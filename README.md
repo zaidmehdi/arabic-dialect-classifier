@@ -3,8 +3,9 @@ This project is a classifier of arabic dialects at a country level:
 Given some arabic text, the goal is to predict the country of the text's dialect.  
   
 App Demo:  
-**link**
-
+https://cc5e7feb4f4d2f1460.gradio.live/
+  
+![Demo App](docs/images/gradio_app.png "Demo App")
 ## Run the app locally with Docker:
 1. Clone the repository with Git:  
 ```
@@ -16,10 +17,13 @@ sudo docker build -t adc .
 ```
 3. Run the Docker Container:
 ```
-sudo docker run -p 8080:80 adc
+sudo docker run -p 8080:8080 adc
 ```
-
-Now you can go to the port
+  
+Now you can access the demo locally at:
+```
+http://localhost:8080
+```
 
 ## How I built this project:
 The data used to train the classifier comes from the NADI 2021 dataset for Arabic Dialect Identification [(Abdul-Mageed et al., 2021)](#cite-mageed-2021).  
