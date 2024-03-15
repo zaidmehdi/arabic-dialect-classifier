@@ -2,12 +2,11 @@ import numpy as np
 import pandas as pd
 import torch
 import torch.nn as nn
-from datasets import DatasetDict, Dataset
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score
 from transformers import AutoModel, AutoTokenizer
 
-from .utils import serialize_data, load_data
+from .utils import serialize_data, load_data, get_datasetdict_object
 
 
 class PreProcessor:
@@ -18,19 +17,6 @@ class PreProcessor:
         self.df_train = pd.read_csv(train_path, sep="\t")
         self.df_test = pd.read_csv(test_path, sep="\t")
         self.output_path = output_path
-
-    def _get_datasetdict_object(self):
-        mapper = {"#2_tweet": "tweet", "#3_country_label": "label"}
-        columns_to_keep = ["tweet", "label"]
-
-        df_train = self.df_train.rename(columns=mapper)[columns_to_keep]
-        df_test = self.df_test.rename(columns=mapper)[columns_to_keep]
-
-        train_dataset = Dataset.from_pandas(df_train)
-        test_dataset = Dataset.from_pandas(df_test)
-        data = DatasetDict({'train': train_dataset, 'test': test_dataset})
-
-        return data
     
     def _tokenize(self, batch):
         return self.tokenizer(batch["tweet"], padding=True)
@@ -53,7 +39,7 @@ class PreProcessor:
         return data_hidden  
         
     def preprocess_data(self):
-        data = self._get_datasetdict_object()
+        data = get_datasetdict_object(self.df_train, self.df_test)
         data_encoded = self._encode_data(data)
         data_hidden = self._get_features(data_encoded)
         serialize_data(data_hidden, output_path=self.output_path)

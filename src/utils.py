@@ -2,8 +2,23 @@ import pickle
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import confusion_matrix
 import torch
+from datasets import DatasetDict, Dataset
+from sklearn.metrics import confusion_matrix
+
+
+def get_datasetdict_object(df_train, df_test):
+    mapper = {"#2_tweet": "tweet", "#3_country_label": "label"}
+    columns_to_keep = ["tweet", "label"]
+
+    df_train = df_train.rename(columns=mapper)[columns_to_keep]
+    df_test = df_test.rename(columns=mapper)[columns_to_keep]
+
+    train_dataset = Dataset.from_pandas(df_train)
+    test_dataset = Dataset.from_pandas(df_test)
+    data = DatasetDict({'train': train_dataset, 'test': test_dataset})
+
+    return data
 
 
 def extract_hidden_state(input_text, tokenizer, language_model):
