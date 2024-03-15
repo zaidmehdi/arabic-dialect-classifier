@@ -1,7 +1,8 @@
-from datasets import DatasetDict, Dataset
 import numpy as np
 import pandas as pd
 import torch
+import torch.nn as nn
+from datasets import DatasetDict, Dataset
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score
 from transformers import AutoModel, AutoTokenizer
@@ -58,6 +59,11 @@ class PreProcessor:
         serialize_data(data_hidden, output_path=self.output_path)
 
 
+class ClassificationHead(nn.Module):
+    def __init__(self, ) -> None:
+        super(ClassificationHead, self).__init__()
+
+
 class Model():
     def __init__(self, data_input_path:str, model_name:str):
         self.model_name = model_name
@@ -75,14 +81,20 @@ class Model():
                                     random_state=2024)
         lr_model.fit(X_train, y_train)
         return lr_model
+    
+    def _train_classification_head(X_train, y_train, base, train_base=False):
+        
+        return
 
     def train_model(self, output_path):
-        if self.model_name != "lr":
+        if self.model_name == "lr":
+            self.model = self._train_logistic_regression(self.X_train, self.y_train)
+        elif self.model_name == "classification_head":
+            self.model = self._train_classification_head(self.X_train, self.y_train)
+        else:
             raise ValueError(f"Model name {self.model_name} does not exist. Please try 'lr'!")
 
-        lr_model = self._train_logistic_regression(self.X_train, self.y_train)
-        self.model = lr_model
-        serialize_data(lr_model, output_path)
+        serialize_data(self.model, output_path)
     
     def _get_metrics(self, y_true, y_preds):
         accuracy = accuracy_score(y_true, y_preds)
