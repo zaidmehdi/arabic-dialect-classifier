@@ -54,11 +54,6 @@ class Model():
     def __init__(self, data_input_path:str, model_name:str):
         self.model_name = model_name
         self.model = None
-        self.data = load_data(input_path=data_input_path)
-        self.X_train = np.array(self.data["train"]["hidden_state"])
-        self.X_test = np.array(self.data["test"]["hidden_state"])
-        self.y_train = np.array(self.data["train"]["label"])
-        self.y_test = np.array(self.data["test"]["label"])
 
     def _train_logistic_regression(X_train, y_train):
         lr_model = LogisticRegression(multi_class='multinomial', 
@@ -72,11 +67,11 @@ class Model():
         
         return
 
-    def train_model(self, output_path):
+    def train_model(self, output_path, X_train, y_train):
         if self.model_name == "lr":
-            self.model = self._train_logistic_regression(self.X_train, self.y_train)
+            self.model = self._train_logistic_regression(X_train, y_train)
         elif self.model_name == "classification_head":
-            self.model = self._train_classification_head(self.X_train, self.y_train)
+            self.model = self._train_classification_head(X_train, y_train)
         else:
             raise ValueError(f"Model name {self.model_name} does not exist. Please try 'lr'!")
 
@@ -90,16 +85,16 @@ class Model():
         print(f"F1 macro average: {f1_macro}")
         print(f"F1 weighted average: {f1_weighted}")
 
-    def evaluate_predictions(self):
-        train_preds = self.model.predict(self.X_train)
-        test_preds = self.model.predict(self.X_test)
+    def evaluate_predictions(self, X_train, X_test, y_train, y_test):
+        train_preds = self.model.predict(X_train)
+        test_preds = self.model.predict(X_test)
 
         print(self.model_name)
         print("\nTrain set:")
-        self._get_metrics(self.y_train, train_preds)
+        self._get_metrics(y_train, train_preds)
         print("-"*50)
         print("Test set:")
-        self._get_metrics(self.y_test, test_preds)
+        self._get_metrics(y_test, test_preds)
 
 
 def main():
