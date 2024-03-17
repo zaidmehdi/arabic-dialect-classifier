@@ -7,18 +7,20 @@ from datasets import DatasetDict, Dataset
 from sklearn.metrics import confusion_matrix
 
 
-def get_datasetdict_object(df_train, df_test):
+def get_datasetdict_object(df_train, df_val, df_test):
     mapper = {"#2_tweet": "tweet", "#3_country_label": "label"}
     columns_to_keep = ["tweet", "label"]
 
     df_train = df_train.rename(columns=mapper)[columns_to_keep]
+    df_val = df_val.rename(columns=mapper)[columns_to_keep]
     df_test = df_test.rename(columns=mapper)[columns_to_keep]
 
     train_dataset = Dataset.from_pandas(df_train)
+    val_dataset = Dataset.from_pandas(df_val)
     test_dataset = Dataset.from_pandas(df_test)
-    data = DatasetDict({'train': train_dataset, 'test': test_dataset})
-
-    return data
+    
+    return DatasetDict({'train': train_dataset, 'val': val_dataset,
+                        'test': test_dataset})
 
 
 def extract_hidden_state(input_text, tokenizer, language_model):
