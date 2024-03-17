@@ -26,7 +26,7 @@ def get_datasetdict_object(df_train, df_val, df_test):
 
 
 def tokenize(batch, tokenizer):
-    return tokenizer(batch["tweet"], padding=True)
+    return tokenizer(batch["tweet"], padding='max_length')
 
 
 def get_dataset(train_path:str, test_path:str, tokenizer):
