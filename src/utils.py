@@ -26,7 +26,7 @@ def get_datasetdict_object(df_train, df_val, df_test):
 
 
 def tokenize(batch, tokenizer):
-    return tokenizer(batch["tweet"], padding='max_length')
+    return tokenizer(batch["tweet"], padding='max_length', max_length=256)
 
 
 def get_dataset(train_path:str, test_path:str, tokenizer):
@@ -43,9 +43,10 @@ def get_dataset(train_path:str, test_path:str, tokenizer):
     df_test["#3_country_label"] = encoder.transform(df_test["#3_country_label"])
 
     dataset = get_datasetdict_object(df_train, df_val, df_test)
-
-    return dataset.map(lambda x: tokenize(x, tokenizer), batched=True)
-
+    dataset = dataset.map(lambda x: tokenize(x, tokenizer), batched=True)
+    dataset.set_format("torch", columns=["input_ids", "attention_mask", "label"])
+    
+    return dataset
 
 def serialize_data(data, output_path:str):
     with open(output_path, "wb") as f:
