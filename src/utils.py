@@ -1,9 +1,11 @@
 import pickle
 
+import evaluate
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import torch
 from datasets import DatasetDict, Dataset
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
@@ -94,3 +96,21 @@ def plot_training_history(history):
 
     plt.tight_layout()
     plt.savefig('../docs/images/training_history.png')
+
+
+def get_model_accuracy(model, test_loader):
+    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    model.to(device)
+
+    metric = evaluate.load("accuracy")
+    model.eval()
+    for batch in test_loader:
+        batch = {k: v.to(device) for k, v in batch.items()}
+        with torch.no_grad():
+            outputs = model(**batch)
+
+        logits = outputs.logits
+        predictions = torch.argmax(logits, dim=-1)
+        metric.add_batch(predictions=predictions, references=batch["labels"])
+
+    return metric.compute()

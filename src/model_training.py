@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-from utils import get_dataset, serialize_data, plot_training_history
+from utils import get_dataset, serialize_data, plot_training_history, get_model_accuracy
 
 
 def train_model(model, optimizer, train_loader, val_loader, num_epochs=100, patience=10):
@@ -77,7 +77,7 @@ def train_model(model, optimizer, train_loader, val_loader, num_epochs=100, pati
             best_valid_loss = valid_loss
             epochs_no_improve = 0
             best_model = model.state_dict()
-            torch.save(best_model, "best_model_checkpoint.pth")
+            torch.save(best_model, "../models/best_model_checkpoint.pth")
         else:
             epochs_no_improve += 1
             if epochs_no_improve == patience:
@@ -121,6 +121,8 @@ def main():
     model, history = train_model(model, optimizer, train_loader, val_loader, num_epochs=num_epochs)
     plot_training_history(history)
 
+    test_accuracy = get_model_accuracy(model, test_loader)
+    print("The accuracy of the model on the test set is:", test_accuracy)
 
 if __name__ == "__main__":
     main()
