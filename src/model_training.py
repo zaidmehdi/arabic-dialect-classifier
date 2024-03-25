@@ -1,14 +1,10 @@
 import torch
-import torch.nn as nn
 import torch.optim as optim
-from datasets import DatasetDict, Dataset
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-from utils import get_dataset, plot_training_history
+from utils import get_dataset, serialize_data, plot_training_history
 
 
 def train_model(model, optimizer, train_loader, val_loader, num_epochs=100, patience=10):
@@ -102,6 +98,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     dataset, label_encoder = get_dataset("data/DA_train_labeled.tsv", "data/DA_dev_labeled.tsv", tokenizer)
+    serialize_data(label_encoder, "../models/label_encoder.pkl")
 
     for data in dataset:
         dataset[data] = dataset[data].remove_columns(["tweet"])
@@ -123,7 +120,7 @@ def main():
 
     model, history = train_model(model, optimizer, train_loader, val_loader, num_epochs=num_epochs)
     plot_training_history(history)
-    
+
 
 if __name__ == "__main__":
     main()
