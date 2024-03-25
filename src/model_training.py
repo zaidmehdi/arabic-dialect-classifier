@@ -1,6 +1,3 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -11,7 +8,7 @@ from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-from utils import get_dataset
+from utils import get_dataset, plot_training_history
 
 
 def train_model(model, optimizer, train_loader, val_loader, num_epochs=100, patience=10):
@@ -125,7 +122,8 @@ def main():
     num_epochs = 100
 
     model, history = train_model(model, optimizer, train_loader, val_loader, num_epochs=num_epochs)
-        
+    plot_training_history(history)
+    
 
 if __name__ == "__main__":
     main()

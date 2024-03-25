@@ -1,6 +1,7 @@
 import pickle
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import seaborn as sns
 from datasets import DatasetDict, Dataset
@@ -69,3 +70,27 @@ def plot_confusion_matrix(y_true, y_preds):
     plt.ylabel('True Label')
     plt.title('Confusion Matrix')
     plt.show()
+
+
+def plot_training_history(history):
+    epochs = np.arange(1, len(history["train_loss"]) + 1)
+    plt.figure(figsize=(10, 5))
+
+    plt.subplot(1, 2, 1)
+    plt.plot(epochs, history["train_loss"], label='Train Loss')
+    plt.plot(epochs, history["valid_loss"], label='Valid Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training and Validation Loss')
+    plt.legend()
+
+    plt.subplot(1, 2, 2)
+    plt.plot(epochs, history["train_accuracies"], label='Train Accuracy')
+    plt.plot(epochs, history["valid_accuracies"], label='Valid Accuracy')
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.title('Training and Validation Accuracy')
+    plt.legend()
+
+    plt.tight_layout()
+    plt.savefig('../docs/images/training_history.png')
