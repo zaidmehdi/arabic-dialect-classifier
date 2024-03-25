@@ -121,7 +121,7 @@ def main():
     for param in model.classification_head.parameters():
         param.requires_grad = True
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=2e-5)
+    optimizer = optim.Adam(model.parameters(), lr=0.0001)
     num_epochs = 100
 
     model, history = train_model(model, optimizer, train_loader, val_loader, num_epochs=num_epochs)
