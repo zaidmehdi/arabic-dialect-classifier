@@ -17,7 +17,8 @@ models_dir = os.path.join(os.path.dirname(__file__), '..', 'models')
 model_file = os.path.join(models_dir, 'best_model_checkpoint.pth')
 if os.path.exists(model_file):
     with open(model_file, "rb") as f:
-        checkpoint = torch.load(model_file)
+        device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+        checkpoint = torch.load(model_file, map_location=device)
         model.load_state_dict(checkpoint)
 else:
     print(f"Error: {model_file} not found.")
