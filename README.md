@@ -26,14 +26,36 @@ http://localhost:8080
 The data used to train the classifier comes from the NADI 2021 dataset for Arabic Dialect Identification [(Abdul-Mageed et al., 2021)](#cite-mageed-2021).  
 It is a corpus of tweets collected using Twitter's API and labeled thanks to the users' locations with the country and region.  
 
-In the current version, I used the language model `https://huggingface.co/moussaKam/AraBART` to extract features from the input text by taking the output of its last hidden layer. I used these vector embeddings as the input for a Multinomial Logistic Regression to classify the input text into one of the 21 dialects (Countries).
+In the current version, I finetuned the language model `https://huggingface.co/moussaKam/AraBART` by attaching to it a classification head and freezing the weights of the base model (due to compute constraints):
+```
+(classification_head): MBartClassificationHead(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (dropout): Dropout(p=0.0, inplace=False)
+    (out_proj): Linear(in_features=768, out_features=21, bias=True)
+)
+```
+The model classifies any input text into one of the 21 countries that we have in the dialects dataset.
+Currently, it achieves an accuracy of 0.3466 on the test set.
 
 For more details, you can refer to the docs directory.
 
 ## Releases
+### v0.0.2
+In the second release, I finetuned the langage model `https://huggingface.co/moussaKam/AraBART` by attaching to it a classification head and freezing the weights of the base model (due to compute constraints):
+```
+(classification_head): MBartClassificationHead(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (dropout): Dropout(p=0.0, inplace=False)
+    (out_proj): Linear(in_features=768, out_features=21, bias=True)
+)
+```
+**Accuracy achieved on test set: 0.3466**
+
+
 ### v0.0.1
 In the first release, I used the language model `https://huggingface.co/moussaKam/AraBART` to extract features from the input text by taking the output of its last hidden layer. I used these vector embeddings as the input for a Multinomial Logistic Regression to classify the input text into one of the 21 dialects (Countries).
-### v0.0.2
+  
+**Accuracy achieved on test set: 0.2324**
 
 ## References:
 - <a name="cite-mageed-2021"></a>
