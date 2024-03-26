@@ -1,21 +1,30 @@
 import os
-import pickle
 
 import gradio as gr
-from transformers import AutoModel, AutoTokenizer
+import torch
+import torch.nn.functional as F
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-from .utils import extract_hidden_state
+from .utils import load_data
 
 
 # Load model
-models_dir = os.path.join(os.path.dirname(__file__), '..', 'models')
-model_file = os.path.join(models_dir, 'logistic_regression.pkl')
+model_name = "moussaKam/AraBART"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=21)
 
+models_dir = os.path.join(os.path.dirname(__file__), '..', 'models')
+model_file = os.path.join(models_dir, 'best_model_checkpoint.pth')
 if os.path.exists(model_file):
     with open(model_file, "rb") as f:
-        model = pickle.load(f)
+        checkpoint = torch.load(model_file)
+        model.load_state_dict(checkpoint)
 else:
     print(f"Error: {model_file} not found.")
+
+# Load label encoder
+encoder_file = os.path.join(models_dir, 'label_encoder.pkl')
+label_encoder = load_data(encoder_file)
 
 # Load html
 html_dir = os.path.join(os.path.dirname(__file__), "templates")
@@ -27,19 +36,16 @@ if os.path.exists(index_html_path):
 else:
     print(f"Error: {index_html_path} not found.")
 
-# Load pre-trained model
-model_name = "moussaKam/AraBART"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-language_model = AutoModel.from_pretrained(model_name)
-
 
 def classify_arabic_dialect(text):
-    text_embeddings = extract_hidden_state(text, tokenizer, language_model)
-    probabilities = model.predict_proba(text_embeddings)[0]
-    labels = model.classes_
+    tokenized_text = tokenizer(text, return_tensors="pt")
+    output = model(**tokenized_text)
+    probabilities = F.softmax(output.logits, dim=1)[0]
+    labels = label_encoder.inverse_transform(range(len(probabilities)))
     predictions = {labels[i]: probabilities[i] for i in range(len(probabilities))}
 
     return predictions
+
 
 def main():
     with gr.Blocks() as demo:
