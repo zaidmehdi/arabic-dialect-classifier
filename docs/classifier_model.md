@@ -2,7 +2,9 @@
 
 **Table of Contents**
 1. Objectives
-2. Iteration 1
+2. Iterations
+    - Release v0.0.2
+    - Release v0.0.1
 3. Conclusion
 
 ## 1. Objectives
@@ -35,8 +37,28 @@ Some countries don't have a lot of observations, which means that it might be ha
 ![distribution of train labels](images/train_labels.png)
 ![distribution of test labels](images/test_labels.png)
 
-## 2. Iteration 1
-For the first iteration, we will convert the tweets into vector embeddings using the AraBART model. We will extract those embeddings from the output of the last hidden layer of the AraBART model. After that, we will train a multinomial logistic regression using these embeddings as features.
+## 2. Iterations
+### Release v0.0.2
+In the second release, I finetuned the langage model `https://huggingface.co/moussaKam/AraBART` by attaching to it a classification head and freezing the weights of the base model (due to compute constraints):
+```
+(classification_head): MBartClassificationHead(
+    (dense): Linear(in_features=768, out_features=768, bias=True)
+    (dropout): Dropout(p=0.0, inplace=False)
+    (out_proj): Linear(in_features=768, out_features=21, bias=True)
+)
+```
+The model was trained for 35 epochs, with the following optimizer:  
+`optimizer = optim.Adam(model.parameters(), lr=0.0001)`  
+  
+It achieved the lowest loss on validation data at the 25th epoch, which is the checkpoint that was kept.  
+We can probably achieve better results by training a model with more capacity for more epochs.  
+  
+![training history](images/training_history_v002.png)
+
+**Accuracy achieved on test set: 0.3466**
+
+### Release v0.0.1
+For the first release, we will convert the tweets into vector embeddings using the AraBART model. We will extract those embeddings from the output of the last hidden layer of the AraBART model. After that, we will train a multinomial logistic regression using these embeddings as features.
 
 We get the following results:
 
