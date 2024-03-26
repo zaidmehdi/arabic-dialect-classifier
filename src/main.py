@@ -61,14 +61,13 @@ def main():
             outputs=predictions)
         
         gr.Markdown("## Text Examples")
-        examples = gr.Examples(
+        gr.Examples(
             examples=[
-                "واش نتا خدام ولا لا",
+                "الله يعطيك الصحة هاد الطاجين بنين تبارك لله",
                 "بصح راك فاهم لازم الزيت",
                 "حضرتك بروح زي كدا؟ على طول النهار ده",
             ],
-            inputs=input_text,
-        )
+            inputs=input_text)
         gr.HTML("""
                 <p style="text-align: center;font-size: large;">
                 Checkout the <a href="https://github.com/zaidmehdi/arabic-dialect-classifier">Github Repo</a>
