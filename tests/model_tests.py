@@ -12,7 +12,7 @@ class TestClassifier(unittest.TestCase):
             "Egypt": "حضرتك بروح زي كدا؟ على طول النهار ده",
             "Iraq": "همين: شلون، زين، خوش، هواية، كلش، شقد",
             "Algeria": "بصح راك فاهم لازم الزيت",
-            "Morocco": "واش نتا خدام ولا لا"
+            "Morocco": "الله يعطيك الصحة هاد الطاجين بنين تبارك لله"
         }
 
     def test_response(self):
