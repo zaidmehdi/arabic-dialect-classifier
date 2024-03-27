@@ -55,8 +55,25 @@ We can probably achieve better results by training a model with more capacity fo
   
 ![training history](images/training_history_v002.png)
 
-**Accuracy achieved on test set: 0.3466**
-
+**Performance metrics**
+- Train set:
+    - Accuracy:
+    - F1 macro average:
+    - F1 weighted average: 
+- Validation set:
+    - Accuracy:
+    - F1 macro average:
+    - F1 weighted average:
+- Test set:
+    - Accuracy: 0.357
+    - F1 macro average: 0.14196348104481968
+    - F1 weighted average: 0.290100362539744
+  
+![Confusion Matrix](images/iteration2_cm.png)
+  
+From the confusion matrix, we see that it is not classifying any tweets in the test set as dialects from countries like Bahrain, Djibouti, Jordan, Kuwait, Lebanon etc..  
+The only countries it is classifying (Algeria, Egypt, Iraq and Saudi Arabia) are part of the dialects which are over represented in the dataset. This means that something must be done to address the class imbalance issue. It is also the reason why the F1 macro average score is so low compared to the accuracy and the f1 weighted average score.
+  
 ### Release v0.0.1
 For the first release, we will convert the tweets into vector embeddings using the AraBART model. We will extract those embeddings from the output of the last hidden layer of the AraBART model. After that, we will train a multinomial logistic regression using these embeddings as features.
 

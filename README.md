@@ -48,7 +48,7 @@ In the current version, I finetuned the language model `https://huggingface.co/m
 )
 ```
 The model classifies any input text into one of the 21 countries that we have in the dialects dataset.
-Currently, it achieves an accuracy of 0.3466 on the test set.
+Currently, it achieves an accuracy of 0.357 on the test set.
 
 For more details, you can refer to the docs directory.
 
@@ -62,7 +62,7 @@ In the second release, I finetuned the langage model `https://huggingface.co/mou
     (out_proj): Linear(in_features=768, out_features=21, bias=True)
 )
 ```
-**Accuracy achieved on test set: 0.3466**
+**Accuracy achieved on test set: 0.357**
 
 
 ### v0.0.1
