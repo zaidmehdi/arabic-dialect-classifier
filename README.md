@@ -1,3 +1,16 @@
+---
+title: Arabic Dialect Classifier
+emoji: 🐪
+colorFrom: yellow
+colorTo: yellow
+sdk: docker
+sdk_version: 0.1.0
+dockerfile_path: Dockerfile
+app_port: 8080
+license: mit
+pinned: false
+---
+
 # Arabic Dialect Classifier
 This project is a classifier of arabic dialects at a country level:  
 Given some arabic text, the goal is to predict the country of the text's dialect.  
