@@ -11,7 +11,9 @@ pinned: false
 
 # Arabic Dialect Classifier
 This project is a classifier of arabic dialects at a country level:  
-Given some arabic text, the goal is to predict the country of the text's dialect.  
+Given some arabic text, the goal is to predict the country of the text's dialect.
+  
+[Link to the Demo](https://huggingface.co/spaces/zaidmehdi/arabic-dialect-classifier)
   
 ![Demo App](docs/images/gradio_app.png "Demo App")
 ## Run the app locally with Docker:
