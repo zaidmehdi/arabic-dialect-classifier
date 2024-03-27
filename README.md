@@ -4,8 +4,6 @@ emoji: 🐪
 colorFrom: yellow
 colorTo: yellow
 sdk: docker
-sdk_version: 0.1.0
-dockerfile_path: Dockerfile
 app_port: 8080
 license: mit
 pinned: false
