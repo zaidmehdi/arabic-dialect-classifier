@@ -22,7 +22,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Fetch Git LFS files
-        run: git lfs pull
+      run: git lfs pull
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
