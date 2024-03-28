@@ -57,13 +57,13 @@ We can probably achieve better results by training a model with more capacity fo
 
 **Performance metrics**
 - Train set:
-    - Accuracy:
-    - F1 macro average:
-    - F1 weighted average: 
+    - Accuracy: 0.42375
+    - F1 macro average: 0.27690611489242184
+    - F1 weighted average: 0.3756381866983461
 - Validation set:
-    - Accuracy:
-    - F1 macro average:
-    - F1 weighted average:
+    - Accuracy: 0.3662
+    - F1 macro average: 0.1747458089851249
+    - F1 weighted average: 0.3074244175023563
 - Test set:
     - Accuracy: 0.357
     - F1 macro average: 0.14196348104481968
